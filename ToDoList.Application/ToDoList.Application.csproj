@@ -8,15 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ToDo\Commands\Create\" />
-    <Folder Include="ToDo\Commands\Delete\" />
-    <Folder Include="ToDo\Commands\Update\" />
     <Folder Include="ToDo\Extensions\" />
-    <Folder Include="ToDo\Queries\GetInfo\" />
-    <Folder Include="ToDo\Queries\GetList\" />
-    <Folder Include="User\Commands\Create\" />
-    <Folder Include="User\Commands\Delete\" />
-    <Folder Include="User\Commands\Update\" />
     <Folder Include="User\Extensions\" />
     <Folder Include="User\Queries\GetList\" />
     <Folder Include="User\Queries\GetInfo\" />
