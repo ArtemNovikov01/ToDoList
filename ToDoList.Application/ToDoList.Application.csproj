@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="ToDo\Commands\Create\" />
+    <Folder Include="ToDo\Commands\Delete\" />
+    <Folder Include="ToDo\Commands\Update\" />
+    <Folder Include="ToDo\Extensions\" />
+    <Folder Include="ToDo\Queries\GetInfo\" />
+    <Folder Include="ToDo\Queries\GetList\" />
+    <Folder Include="User\Commands\Create\" />
+    <Folder Include="User\Commands\Delete\" />
+    <Folder Include="User\Commands\Update\" />
+    <Folder Include="User\Extensions\" />
+    <Folder Include="User\Queries\GetList\" />
+    <Folder Include="User\Queries\GetInfo\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoList.Exceptions\ToDoList.Exceptions.csproj" />
+    <ProjectReference Include="..\ToDoList.Model\ToDoList.Models.csproj" />
+  </ItemGroup>
+
+</Project>
