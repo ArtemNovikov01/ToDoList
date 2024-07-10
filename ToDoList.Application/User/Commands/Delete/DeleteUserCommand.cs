@@ -35,7 +35,7 @@ public record DeleteUserCommand : IRequest
         {
             if (command.Id <= 0)
             {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Не валидное поле 'Id'.");
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Id' должно быть больше 0.");
             }
         }
     }

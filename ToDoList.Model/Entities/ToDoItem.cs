@@ -23,7 +23,7 @@ public class ToDoItem
     /// <summary>
     ///     Срок.
     /// </summary>
-    public DateTime DueDate { get; private set; } = DateTime.Now;
+    public DateTime DueDate { get; private set; } = DateTime.UtcNow;
 
     /// <summary>
     ///     Приоритет.
@@ -34,8 +34,7 @@ public class ToDoItem
     /// <summary>
     ///     Пользователь.
     /// </summary>
-    public User User { get; private set; } = null!;
-    public int UserId { get; private set; }
+    public User? User { get; private set; }
 
     public ToDoItem()
     {
@@ -44,13 +43,18 @@ public class ToDoItem
 
     public ToDoItem(string title, 
         string description, 
-        int priorityId, 
-        int userId)
+        DateTime dueDate,
+        int priorityId)
     {
         Title = title;
         Description = description;
+        DueDate = dueDate;
         PriorityId = priorityId;
-        UserId = userId;
+    }
+
+    public void ToAppoint(User user)
+    {
+        User = user;
     }
 
     public void UpdateToDo(string title, string description, DateTime dueDate, int priorityId)

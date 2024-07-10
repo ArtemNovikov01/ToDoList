@@ -6,11 +6,11 @@ using ToDoList.Application.ToDo.Commands.Update;
 using ToDoList.Exceptions.Common.Exceptions;
 
 namespace ToDoList.Application.ToDo.Commands.Delete;
-public record DeleteUserCommand : IRequest
+public record DeleteToDoCommand : IRequest
 {
     public int Id { get; set; }
 
-    public sealed class DeleteToDoCommandHandler : IRequestHandler<DeleteUserCommand>
+    public sealed class DeleteToDoCommandHandler : IRequestHandler<DeleteToDoCommand>
     {
         private readonly IToDoDbContext _toDoDbContext;
 
@@ -19,7 +19,7 @@ public record DeleteUserCommand : IRequest
             _toDoDbContext = toDoDbContext;
         }
 
-        public async Task Handle(DeleteUserCommand command, CancellationToken cancellationToken)
+        public async Task Handle(DeleteToDoCommand command, CancellationToken cancellationToken)
         {
             ValidateRequestAndThrow(command);
 
@@ -32,7 +32,7 @@ public record DeleteUserCommand : IRequest
             await _toDoDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private void ValidateRequestAndThrow(DeleteUserCommand command)
+        private void ValidateRequestAndThrow(DeleteToDoCommand command)
         {
             if (command.Id <= 0)
             {

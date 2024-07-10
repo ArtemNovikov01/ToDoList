@@ -15,6 +15,7 @@ public class PriorityController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpPost]
     public async Task<GetPriorityResponse> GetList(GetPriorityQuery query)
     {
         return await _mediator.Send(query, HttpContext.RequestAborted);

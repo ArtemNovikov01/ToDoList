@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using QuestionnairesService.Exceptions.Common.Exceptions;
 using ToDoList.Application.Services;
-using ToDoList.Application.ToDo.Commands.Update;
 using ToDoList.Exceptions.Common.Exceptions;
 
 namespace ToDoList.Application.ToDo.Queries.GetInfo;
@@ -26,12 +26,14 @@ public record GetInfoToDoQuery : IRequest<GetToDoInfo>
 
             EntityNotFoundException.ThrowIfNull(toDo, $"Задачи с Id={query.Id} не существует.");
 
-            return new GetToDoInfo { 
+            return new GetToDoInfo
+            { 
                 Id = toDo!.Id,
                 Title = toDo.Title,
                 Description = toDo.Description,
                 IsCompleted = toDo.IsCompleted,
                 PriorityLevel = toDo.Priority.Level,
+                DueDate = toDo.DueDate
             };
         }
 

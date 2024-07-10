@@ -4,7 +4,7 @@ using QuestionnairesService.Exceptions.Common.Exceptions;
 using ToDoList.Application.Services;
 using ToDoList.Exceptions.Common.Exceptions;
 
-namespace ToDoList.Application.ToDo.Commands.Completed;
+namespace ToDoList.Application.ToDo.Commands.ChangeStatus;
 public record ChangeStatusToDoCommand : IRequest
 {
     public int Id { get; init; }
@@ -33,7 +33,7 @@ public record ChangeStatusToDoCommand : IRequest
         {
             if (command.Id <= 0)
             {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Не валидное поле 'Id'.");
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Id' должно быть больше 0.");
             }
         }
     }

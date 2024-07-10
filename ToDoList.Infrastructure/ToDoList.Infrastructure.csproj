@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDoList.Application\ToDoList.Application.csproj" />
+    <ProjectReference Include="..\ToDoList.DataBase\ToDoList.DataBase.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,7 +18,7 @@ public class ToDoDbContext : DbContext, IToDoDbContext
 
     public DbSet<User> Users => Set<User>();
 
-    public DbSet<Priority> Prioritys => Set<Priority>();
+    public DbSet<Priority> Priorities => Set<Priority>();
 
     public DbSet<ToDoItem> ToDoItem => Set<ToDoItem>();
 }

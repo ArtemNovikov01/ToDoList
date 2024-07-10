@@ -1,55 +1,48 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Application.Services;
-using ToDoList.Application.ToDo.Extensions;
+using ToDoList.Application.User.Extensions;
 using ToDoList.Exceptions.Common.Exceptions;
 
-namespace ToDoList.Application.ToDo.Queries.GetList;
-public record GetListToDoQuery : IRequest<GetListToDoResponse>
+namespace ToDoList.Application.User.Queries.GetList;
+public record GetListUserQuery : IRequest<GetListUserResponse>
 {
-    public bool? Status { get; init; }
-    public int? PriorityId { get; init; }
+    public string? Name { get; init; }
     public int Skip { get; init; }
     public int Take { get; init; }
-    public sealed class GetListToDoQueryHandler : IRequestHandler<GetListToDoQuery, GetListToDoResponse>
+    public sealed class GetListUserQueryHandler : IRequestHandler<GetListUserQuery, GetListUserResponse>
     {
         private readonly IToDoDbContext _toDoDbContext;
-        public GetListToDoQueryHandler(IToDoDbContext toDoDbContext)
+        public GetListUserQueryHandler(IToDoDbContext toDoDbContext)
         {
             _toDoDbContext = toDoDbContext;
         }
-        public async Task<GetListToDoResponse> Handle(GetListToDoQuery request, CancellationToken cancellationToken)
+        public async Task<GetListUserResponse> Handle(GetListUserQuery request, CancellationToken cancellationToken)
         {
             ValidateRequestAndThrow(request);
 
-            var quary = _toDoDbContext.ToDoItem
-                .FilterByStatus(request.Status)
-                .FilterByPriority(request.PriorityId);
+            var quary = _toDoDbContext.Users
+                .FilterByName(request.Name);
 
             var totalCount = await quary
                 .CountAsync(cancellationToken);
 
-            return new GetListToDoResponse() {
-                ToDoDtos = await quary
+            return new GetListUserResponse() {
+                Users = await quary
                     .OrderBy(t => t.Id)
                     .Skip(request.Skip)
                     .Take(request.Take)
-                    .Select(t => new ToDoDto()
+                    .Select(t => new UserDto()
                     {
                         Id = t.Id,
-                        Title = t.Title
+                        Name = t.Name
                     }).ToListAsync(cancellationToken),
                 TotalCount = totalCount
             };
         }
 
-        private void ValidateRequestAndThrow(GetListToDoQuery request)
+        private void ValidateRequestAndThrow(GetListUserQuery request)
         {
-            if (request.PriorityId <= 0)
-            {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "PriorityId должен быть больше нулю.");
-            }
-
             if (request.Skip < 0)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Skip должен быть больше или равен нулю.");

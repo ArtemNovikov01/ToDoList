@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Application.ToDo.Commands.Completed;
+using ToDoList.Application.ToDo.Commands.ChangeStatus;
+using ToDoList.Application.ToDo.Commands.Create;
 using ToDoList.Application.ToDo.Commands.Delete;
+using ToDoList.Application.ToDo.Commands.ToAppoint;
 using ToDoList.Application.ToDo.Commands.Update;
 using ToDoList.Application.ToDo.Queries.GetInfo;
 using ToDoList.Application.ToDo.Queries.GetList;
-using ToDoList.Application.User.Commands.Create;
 
 namespace ToDoList.Web.Controllers;
 
@@ -21,37 +22,43 @@ public class ToDoController : ControllerBase
     }
 
     [HttpPost("create")]
-    public async Task Create(CreateToDoUserCommand command)
+    public async Task Create(CreateToDoCommand command)
     {
         await _mediator.Send(command, HttpContext.RequestAborted);
     }
 
     [HttpPost("update")]
-    public async Task Update(UpdateUserCommand command)
+    public async Task Update(UpdateToDoCommand command)
     {
         await _mediator.Send(command, HttpContext.RequestAborted);
     }
 
     [HttpPost("delete")]
-    public async Task Update(DeleteUserCommand command)
+    public async Task Update(DeleteToDoCommand command)
     {
         await _mediator.Send(command, HttpContext.RequestAborted);
     }
 
     [HttpPost("getInfo")]
-    public async Task GetInfo(GetInfoToDoQuery query)
+    public async Task<GetToDoInfo> GetInfo(GetInfoToDoQuery query)
     {
-        await _mediator.Send(query, HttpContext.RequestAborted);
+        return await _mediator.Send(query, HttpContext.RequestAborted);
     }
 
     [HttpPost("getList")]
-    public async Task GetInfo(GetListToDoQuery query)
+    public async Task<GetListToDoResponse> GetList(GetListToDoQuery query)
     {
-        await _mediator.Send(query, HttpContext.RequestAborted);
+        return await _mediator.Send(query, HttpContext.RequestAborted);
     }
 
     [HttpPost("changeStatus")]
     public async Task ChangeStatus(ChangeStatusToDoCommand command)
+    {
+        await _mediator.Send(command, HttpContext.RequestAborted);
+    }
+
+    [HttpPost("toAppoint")]
+    public async Task ToAppoint(ToAppointToDoCommand command)
     {
         await _mediator.Send(command, HttpContext.RequestAborted);
     }

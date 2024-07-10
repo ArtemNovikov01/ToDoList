@@ -5,7 +5,7 @@ using ToDoList.Application.Services;
 using ToDoList.Exceptions.Common.Exceptions;
 
 namespace ToDoList.Application.ToDo.Commands.Update;
-public record UpdateUserCommand : IRequest
+public record UpdateToDoCommand : IRequest
 {
     public int Id { get; set; }
     public string Title { get; init; } = null!;
@@ -13,7 +13,7 @@ public record UpdateUserCommand : IRequest
     public DateTime DueDate { get; init; }
     public int PriorityId { get; init; }
 
-    public sealed class UpdateToDoCommandHandler : IRequestHandler<UpdateUserCommand>
+    public sealed class UpdateToDoCommandHandler : IRequestHandler<UpdateToDoCommand>
     {
         private readonly IToDoDbContext _toDoDbContext;
 
@@ -22,9 +22,13 @@ public record UpdateUserCommand : IRequest
             _toDoDbContext = toDoDbContext;
         }
 
-        public async Task Handle(UpdateUserCommand command, CancellationToken cancellationToken)
+        public async Task Handle(UpdateToDoCommand command, CancellationToken cancellationToken)
         {
             ValidateRequestAndThrow(command);
+
+            var priority = _toDoDbContext.Priorities.FirstOrDefault(p => p.Id == command.PriorityId);
+
+            EntityNotFoundException.ThrowIfNull(priority, $"Приоритета с Id={command.PriorityId} не существует.");
 
             var toDo = await _toDoDbContext.ToDoItem.FirstOrDefaultAsync(t => t.Id == command.Id, cancellationToken);
 
@@ -35,7 +39,7 @@ public record UpdateUserCommand : IRequest
             await _toDoDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private void ValidateRequestAndThrow(UpdateUserCommand command)
+        private void ValidateRequestAndThrow(UpdateToDoCommand command)
         {
             if (command.Id <= 0)
             {
@@ -55,6 +59,11 @@ public record UpdateUserCommand : IRequest
             if (command.PriorityId <= 0)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Не валидное поле 'PriorityId'.");
+            }
+
+            if (command.DueDate < DateTime.UtcNow)
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Дата выполнения не может быть меньше текущей даты.");
             }
         }
     }

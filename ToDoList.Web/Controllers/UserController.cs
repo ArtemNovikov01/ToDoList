@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Application.ToDo.Commands.Delete;
 using ToDoList.Application.User.Commands.Create;
+using ToDoList.Application.User.Commands.Delete;
+using ToDoList.Application.User.Queries.GetInfo;
+using ToDoList.Application.User.Queries.GetList;
 
 namespace ToDoList.Web.Controllers;
 
@@ -17,7 +20,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("create")]
-    public async Task Create(CreateToDoUserCommand command)
+    public async Task Create(CreateUserCommand command)
     {
         await _mediator.Send(command, HttpContext.RequestAborted);
     }
@@ -26,5 +29,17 @@ public class UserController : ControllerBase
     public async Task Delete(DeleteUserCommand command)
     {
         await _mediator.Send(command, HttpContext.RequestAborted);
+    }
+
+    [HttpPost("getInfo")]
+    public async Task<GetUserInfoResponse> GetInfo(GetInfoUserQuery command)
+    {
+        return await _mediator.Send(command, HttpContext.RequestAborted);
+    }
+
+    [HttpPost("getList")]
+    public async Task<GetListUserResponse> GetList(GetListUserQuery command)
+    {
+        return await _mediator.Send(command, HttpContext.RequestAborted);
     }
 }

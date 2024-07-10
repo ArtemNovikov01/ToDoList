@@ -4,11 +4,11 @@ using ToDoList.Exceptions.Common.Exceptions;
 using Man = ToDoList.Models.Entities.User;
 
 namespace ToDoList.Application.User.Commands.Create;
-public record CreateToDoUserCommand : IRequest
+public record CreateUserCommand : IRequest
 {
     public string Name { get; init; } = null!;
 
-    public sealed class CreateUserCommandHandler : IRequestHandler<CreateToDoUserCommand>
+    public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
     {
         private readonly IToDoDbContext _toDoDbContext;
 
@@ -17,7 +17,7 @@ public record CreateToDoUserCommand : IRequest
             _toDoDbContext = toDoDbContext;
         }
 
-        public async Task Handle(CreateToDoUserCommand command, CancellationToken cancellationToken)
+        public async Task Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             ValidateRequestAndThrow(command);
 
@@ -26,7 +26,7 @@ public record CreateToDoUserCommand : IRequest
             await _toDoDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private void ValidateRequestAndThrow(CreateToDoUserCommand command)
+        private void ValidateRequestAndThrow(CreateUserCommand command)
         {
             if (string.IsNullOrEmpty(command.Name.Trim()))
             {
